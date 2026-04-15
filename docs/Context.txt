@@ -1,0 +1,46 @@
+Monitor es el frontend del proyecto. Datafeed es el backend que esta en otra carpeta de claude.
+
+2 - Frontend 
+Proyecto en carpeta Monitor. Debe mostrar las características principales para administrar toda la información necesaria de la estrategia. Será construído en REACT  (vite), y será subido a un repositorio github.
+
+2.a - Principales caracterísiticas: 
+- React project structure for a financial market data dashboard that consumes a REST API.
+Include folders for services, components, hooks and state management. Include error handling, loading state and retry logic.
+
+- Design a React dashboard for market data including: real-time price display, loading states, error handling, modular components
+
+
+3 - Estrategias de trading con opciones
+Implementa Gale Theta Harvest v3.2 (proyecto compartido de claude): Estrategia sistemática de venta de prima sobre índices líquidos. 
+
+Gale Theta Harvest es un algoritmo de trading electrónico que vende volatilidad en entornos estables. Captura el decay temporal (theta) de opciones sobre índices líquidos usando la estructura de gamma del mercado como soporte.
+
+La tesis central es simple: cuando el mercado tiene GEX positivo, el spot está arriba del Gamma Zero Level, y la volatilidad implícita está en un rango medio sin expandirse, las opciones OTM pierden valor predeciblemente. El algoritmo vende esa prima con riesgo definido y reglas mecánicas de gestión.
+
+Opera solo tres tickers, elegidos por liquidez extrema en opciones:
+- **SPY** — S&P 500 ETF
+- **QQQ** — Nasdaq 100 ETF
+- **GLD** — Gold ETF
+
+Tres estructuras permitidas, todas de crédito con riesgo definido:
+- **Iron Condor** — estructura por defecto, vende prima por arriba y por abajo
+- **Put Credit Spread** — solo vende prima por abajo (cuando la asimetría de muros favorece ese lado)
+- **Call Credit Spread** — solo vende prima por arriba (idem inverso)
+
+Prohibido terminantemente: naked shorts de cualquier tipo, ratio spreads, y cualquier posición long direccional.
+
+Operación: La señal pasa por 4 capas de validación en cascada. Si cualquier capa falla, no se abre nada. La cascada es cortocircuitante — si la Capa 1 falla, las demás ni se evalúan.
+
+Capas (desarrollada en otro archivo)
+Capa 1 — Régimen macro y GEX
+Capa 2 — Motor de strikes
+Capa 3 — Microestructura
+Capa 4 — Sizing y riesgo
+
+Configuración
+La estrategia se configura con 3 archivos JSON:
+- `rules.core.json` — reglas base, parámetros completos
+- `rules.live.json` — overlay conservador para trading real
+- `rules.paper.json` — overlay para paper trading con más observabilidad
+El overlay se aplica sobre el core: los campos presentes en el overlay sobreescriben los del core, el resto se hereda.
+
