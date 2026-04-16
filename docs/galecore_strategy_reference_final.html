@@ -1,0 +1,483 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui);font-size:13px;color:var(--color-text-primary)}
+.lbl{font-size:11px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:8px}
+.surface{background:var(--color-background-secondary);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.kv{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px;gap:8px}
+.kv:last-child{border-bottom:none}
+.kv .k{color:var(--color-text-secondary);flex-shrink:0}
+.kv .v{font-weight:500;text-align:right}
+.pill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:500}
+.ok{background:var(--color-background-success);color:var(--color-text-success)}
+.warn{background:var(--color-background-warning);color:var(--color-text-warning)}
+.err{background:var(--color-background-danger);color:var(--color-text-danger)}
+.info{background:var(--color-background-info);color:var(--color-text-info)}
+.neu{background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-secondary)}
+.tab-row{display:flex;gap:4px;margin-bottom:16px;background:var(--color-background-secondary);padding:4px;border-radius:10px;flex-wrap:wrap}
+.tab{padding:7px 14px;border-radius:8px;border:none;cursor:pointer;font-size:12px;font-weight:500;background:transparent;color:var(--color-text-secondary);transition:all .12s}
+.tab.on{background:var(--color-text-primary);color:var(--color-background-primary)}
+.view{display:none}.view.on{display:block}
+.check{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px}
+.check:last-child{border-bottom:none}
+.ci{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;margin-top:1px}
+.ci-ok{background:var(--color-background-success);color:var(--color-text-success)}
+.ci-i{background:var(--color-background-info);color:var(--color-text-info)}
+.ci-w{background:var(--color-background-warning);color:var(--color-text-warning)}
+.note{font-size:11px;color:var(--color-text-tertiary);line-height:1.55;margin-top:3px}
+.mono{font-family:var(--font-mono,monospace);font-size:12px;background:var(--color-background-secondary);padding:10px 14px;border-radius:8px;margin:8px 0;line-height:1.7}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.flow-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+.flow-line{width:1px;background:var(--color-border-secondary);margin:3px auto;height:18px}
+.flow-step{display:flex;gap:12px;margin-bottom:0}
+.flow-col{display:flex;flex-direction:column;align-items:center}
+.profile-row{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap}
+.ps{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary);background:transparent;transition:all .1s}
+.ps.on-core{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+.ps.on-live{background:var(--color-background-danger);color:var(--color-text-danger)}
+.ps.on-paper{background:var(--color-background-info);color:var(--color-text-info)}
+.sec{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.7px;color:var(--color-text-tertiary);margin:18px 0 10px}
+.exit-card{border-radius:10px;padding:12px 14px;margin-bottom:7px}
+.zscore-live{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:8px;padding:10px 12px;background:var(--color-background-secondary);border-radius:8px}
+.slider-row{display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:6px}
+.slider-row label{color:var(--color-text-secondary);width:110px;flex-shrink:0}
+.slider-row .v{min-width:52px;text-align:right;font-weight:500}
+.priority-num{width:22px;height:22px;border-radius:50%;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+</style>
+
+<h2 class="sr-only">GaleCore Gamma Premium v4.3.0 — referencia definitiva de estrategia: universo, 4 capas de validación, estructuras, gestión y fórmulas.</h2>
+
+<div style="padding:1rem 0">
+
+<div style="margin-bottom:20px">
+  <div style="font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--color-text-tertiary)">GaleCore · Gamma Premium · v4.3.0</div>
+  <div style="font-size:24px;font-weight:500;margin-top:3px;letter-spacing:-.3px">Referencia de estrategia</div>
+  <div style="font-size:13px;color:var(--color-text-secondary);margin-top:5px">SPY · QQQ · GLD — venta de volatilidad con riesgo definido · grado institucional</div>
+</div>
+
+<div class="profile-row">
+  <div class="ps on-core" id="ps-core" onclick="setPro('core')">Core</div>
+  <div class="ps" id="ps-live" onclick="setPro('live')">Live</div>
+  <div class="ps" id="ps-paper" onclick="setPro('paper')">Paper</div>
+</div>
+<div id="pro-note" style="font-size:11px;color:var(--color-text-tertiary);padding:5px 10px;background:var(--color-background-secondary);border-radius:7px;margin-bottom:14px"></div>
+
+<div class="tab-row" role="tablist">
+  <button class="tab on" onclick="showTab('overview')" role="tab">Visión general</button>
+  <button class="tab" onclick="showTab('precheck')" role="tab">Pre-check</button>
+  <button class="tab" onclick="showTab('layer1')" role="tab">Capa 1 · Régimen</button>
+  <button class="tab" onclick="showTab('layer2')" role="tab">Capa 2 · Strikes</button>
+  <button class="tab" onclick="showTab('layer3')" role="tab">Capa 3 · Sizing</button>
+  <button class="tab" onclick="showTab('exits')" role="tab">Salidas</button>
+  <button class="tab" onclick="showTab('math')" role="tab">Fórmulas</button>
+</div>
+
+<!-- ══ VISIÓN GENERAL ══ -->
+<div id="v-overview" class="view on">
+
+  <div class="g2" style="margin-bottom:8px">
+    <div class="card">
+      <div class="lbl">Principios rectores</div>
+      <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">Supervivencia sobre frecuencia</span><div class="note">El efectivo es una posición. Sin setup válido no se opera.</div></div></div>
+      <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">Riesgo definido siempre</span><div class="note">Nunca naked. Nunca ratio spread.</div></div></div>
+      <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">Sin riesgo binario macro</span><div class="note">Posiciones se cierran antes de ventanas de eventos.</div></div></div>
+      <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">Calidad de ejecución sobre frecuencia</span><div class="note">Slippage, datos frescos y órdenes correctas antes de entrar.</div></div></div>
+    </div>
+    <div class="card">
+      <div class="lbl">Universo y estructuras</div>
+      <div class="kv"><span class="k">Activos</span><span class="v">SPY · QQQ · GLD</span></div>
+      <div class="kv"><span class="k">Volumen mín. subyacente</span><span class="v">5M contratos/día</span></div>
+      <div class="kv"><span class="k">Permitidas</span><span class="v">IC · Put CS · Call CS</span></div>
+      <div class="kv"><span class="k">Prohibidas</span><span class="v">Naked put/call · ratio spread</span></div>
+      <div class="kv"><span class="k">Default</span><span class="v">Iron Condor</span></div>
+      <div class="kv"><span class="k">Asimetría 2.5x → unilateral</span><span class="v">Z-Score decide lado</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Parámetros por perfil</div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="border-bottom:0.5px solid var(--color-border-secondary)">
+            <th style="text-align:left;padding:5px 8px;color:var(--color-text-tertiary);font-weight:500">Parámetro</th>
+            <th style="text-align:center;padding:5px 8px;color:var(--color-text-primary);font-weight:500">Core</th>
+            <th style="text-align:center;padding:5px 8px;color:var(--color-text-danger);font-weight:500">Live</th>
+            <th style="text-align:center;padding:5px 8px;color:var(--color-text-info);font-weight:500">Paper</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary)"><td style="padding:5px 8px;color:var(--color-text-secondary)">Riesgo / trade</td><td style="text-align:center;padding:5px 8px;font-weight:500">1.5% NL</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-danger)">1.0% NL</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-info)">1.0% NL</td></tr>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary)"><td style="padding:5px 8px;color:var(--color-text-secondary)">Posiciones máx.</td><td style="text-align:center;padding:5px 8px;font-weight:500">3</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-danger)">2</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-info)">2</td></tr>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary)"><td style="padding:5px 8px;color:var(--color-text-secondary)">Portfolio heat máx.</td><td style="text-align:center;padding:5px 8px;font-weight:500">4.5% NL</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-danger)">3.0% NL</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-info)">3.0% NL</td></tr>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary)"><td style="padding:5px 8px;color:var(--color-text-secondary)">Kill switch diario</td><td style="text-align:center;padding:5px 8px;font-weight:500">1.5% MTM</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-danger)">1.0% MTM</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-info)">1.0% MTM</td></tr>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary)"><td style="padding:5px 8px;color:var(--color-text-secondary)">Evitar apertura</td><td style="text-align:center;padding:5px 8px;font-weight:500">20 min</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-danger)">30 min</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-info)">20 min</td></tr>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary)"><td style="padding:5px 8px;color:var(--color-text-secondary)">Slippage entradas</td><td style="text-align:center;padding:5px 8px;font-weight:500">10% crédito</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-danger)">8% crédito</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-info)">12% crédito</td></tr>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary)"><td style="padding:5px 8px;color:var(--color-text-secondary)">Slippage rolls (fijo/leg)</td><td style="text-align:center;padding:5px 8px;font-weight:500">$0.05</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-danger)">$0.04</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-info)">$0.08</td></tr>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary)"><td style="padding:5px 8px;color:var(--color-text-secondary)">Delta hard defense</td><td style="text-align:center;padding:5px 8px;font-weight:500">0.30</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-danger)">0.28</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-info)">0.30</td></tr>
+          <tr><td style="padding:5px 8px;color:var(--color-text-secondary)">Roll mín. DTE</td><td style="text-align:center;padding:5px 8px;font-weight:500">22d</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-danger)">22d</td><td style="text-align:center;padding:5px 8px;font-weight:500;color:var(--color-text-info)">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Flujo operativo diario</div>
+    <div class="flow-step">
+      <div class="flow-col"><div class="flow-dot" style="background:var(--color-background-danger);color:var(--color-text-danger)">1</div><div class="flow-line"></div></div>
+      <div style="flex:1;padding-bottom:14px"><div style="font-size:13px;font-weight:500">Pre-check</div><div class="note">Datos frescos (quotes &lt;15s, GEX/ZGL &lt;15min), canary JPY/USD, ventana horaria, kill switch</div></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-col"><div class="flow-dot" style="background:var(--color-background-warning);color:var(--color-text-warning)">2</div><div class="flow-line"></div></div>
+      <div style="flex:1;padding-bottom:14px"><div style="font-size:13px;font-weight:500">Gestión de posiciones abiertas</div><div class="note">Marcar a mercado → evaluar 8 reglas de salida en orden de prioridad → ejecutar si corresponde</div></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-col"><div class="flow-dot" style="background:var(--color-background-info);color:var(--color-text-info)">3</div><div class="flow-line"></div></div>
+      <div style="flex:1;padding-bottom:14px"><div style="font-size:13px;font-weight:500">Validación de señal (4 capas en cascada)</div><div class="note">Si cualquier capa falla, el sistema se detiene — no se evalúan las siguientes</div></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-col"><div class="flow-dot" style="background:var(--color-background-success);color:var(--color-text-success)">4</div></div>
+      <div style="flex:1;padding-bottom:0"><div style="font-size:13px;font-weight:500">Ejecución</div><div class="note">Complex order · todas las patas simultáneas · slippage controlado · partial fill → cleanup obligatorio</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PRE-CHECK ══ -->
+<div id="v-precheck" class="view">
+  <div class="surface" style="font-size:12px;color:var(--color-text-secondary);line-height:1.6">Antes de procesar cualquier señal el entorno de datos y liquidez debe ser óptimo. Si falla cualquier condición aquí, el sistema se bloquea completamente — sin degradación silenciosa.</div>
+
+  <div class="card">
+    <div class="lbl">Calidad de datos</div>
+    <div class="check"><div class="ci ci-i">!</div><div><span style="font-weight:500">Quotes: antigüedad máxima 15 segundos</span><div class="note">Si el último quote supera 15s, se bloquea la entrada. Mercado cruzado también bloquea automáticamente.</div></div></div>
+    <div class="check"><div class="ci ci-i">!</div><div><span style="font-weight:500">GEX · ZGL · Walls: antigüedad máxima 15 minutos</span><div class="note">Refresh intradiario mínimo cada 15 min. Sin datos estructurales frescos no se valida la Capa 1.</div></div></div>
+    <div class="check"><div class="ci ci-i">!</div><div><span style="font-weight:500">Bloqueo ante datos críticos faltantes</span><div class="note">Ausencia de cualquier dato requerido = bloqueo total. No degradación ni estimación.</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Canary de estrés sistémico — JPY/USD</div>
+    <div class="check"><div class="ci ci-i">!</div><div><span style="font-weight:500">Variación rodante 5 días &lt; ±2.5%</span><div class="note">El par JPY/USD actúa como canario de riesgo sistémico global. Una variación extrema señala stress de carry trades con alta correlación a la volatilidad de índices USA. Si supera ±2.5% en 5 días → bloqueo de nuevas entradas hasta estabilización.</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Ventanas horarias y ejecución</div>
+    <div class="kv"><span class="k">Evitar apertura</span><span class="v" id="open-min-val">20 min post apertura</span></div>
+    <div class="kv"><span class="k">Evitar cierre</span><span class="v">20 min pre cierre</span></div>
+    <div class="kv"><span class="k">Tipo de orden</span><span class="v">Complex order (todas las patas simultáneas)</span></div>
+    <div class="kv"><span class="k">Partial fill no resuelto</span><span class="v">Cancelar en 20s → cleanup limit ladder</span></div>
+    <div class="kv"><span class="k">Sin supervisión disponible</span><span class="v">Continuar flatten hasta quedar plano</span></div>
+    <div class="note" style="margin-top:8px">Las salidas forzadas por evento macro o contingencia operativa ignoran estas ventanas horarias y todos los límites de slippage.</div>
+  </div>
+</div>
+
+<!-- ══ CAPA 1 ══ -->
+<div id="v-layer1" class="view">
+  <div class="surface" style="font-size:12px;color:var(--color-text-secondary);line-height:1.6">El mercado debe demostrar amortiguación estructural y volatilidad estable. Todas las condiciones deben pasar. Si una falla, el sistema se detiene — Capa 2 no se evalúa.</div>
+
+  <div class="card">
+    <div class="lbl">Estructura de VIX</div>
+    <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">VIX 9D &lt; VIX 3M (contango estricto)</span><div class="note">La curva de VIX debe tener pendiente positiva. Cuando se invierte indica pánico de corto plazo que amplifica la volatilidad intradiaria. Condición binaria — no hay zona gris.</div></div></div>
+    <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">VIX absoluto &lt; 30</span><div class="note">Por encima de 30 el mercado está en régimen de crisis. El riesgo de gap nocturno supera cualquier beneficio de la prima vendida.</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Volatilidad implícita</div>
+    <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">IV Rank entre 25 y 65</span><div class="note">Debajo de 25: opciones baratas, la prima no justifica el riesgo. Por encima de 65: riesgo de evento inminente — la IV puede explotar más. Ventana 25–65 es el punto dulce del theta harvesting.</div></div></div>
+    <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">IV Momentum: RoC 3 días de IV ATM 30D ≤ +15%</span><div class="note">Si la IV sube más de 15% en 3 días, hay expansión activa en curso. El sistema espera estabilización antes de entrar — vender volatilidad en expansión activa es comprar el peor momento.</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Soporte gamma — específico por activo</div>
+    <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">SPY: GEX Total ≥ $100B (agregado SPX+SPY)</span><div class="note">Se evalúa la suma del gamma exposure de contratos SPX y SPY juntos — representan el mismo subyacente económico. GEX positivo alto significa que los market makers deben vender cuando sube y comprar cuando baja, amortiguando la volatilidad.</div></div></div>
+    <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">QQQ · GLD: GEX actual ≥ percentil 60 (historial 6 meses propio activo)</span><div class="note">Cada activo tiene dinámicas de opciones distintas. Se exige que el GEX actual sea ≥ al percentil 60 de su propio historial — no un número absoluto que no sería comparable entre activos.</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Soporte estructural y persistencia</div>
+    <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">Spot ≥ ZGL + 0.5% de buffer</span><div class="note">El spot no solo debe superar el Gamma Zero Level — debe estar 0.5% por encima. El ZGL es el nivel donde el Net GEX cruza de positivo a negativo. Sobre él los MMs anclan el precio; bajo él lo amplifican. El buffer evita fallos en el límite.</div></div></div>
+    <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">Persistencia ≥ 2 sesiones consecutivas sobre ZGL</span><div class="note">Un único día sobre el ZGL puede ser un spike. Dos días consecutivos confirman que el régimen de amortiguación está activo y no es transitorio.</div></div></div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--color-text-danger);border-radius:0 12px 12px 0">
+    <div class="lbl">Eventos macro — bloqueo y liquidación forzada</div>
+    <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">FOMC: bloqueo 3 sesiones antes</span></div></div>
+    <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">CPI · NFP: bloqueo 2 sesiones antes</span></div></div>
+    <div class="check"><div class="ci ci-ok">✓</div><div><span style="font-weight:500">Liquidación binaria de posiciones abiertas</span><div class="note">Si hay posiciones abiertas al ingresar a la ventana de bloqueo, se cierran incondicionalmente antes del inicio del evento. Esta salida no puede ser frenada por filtros de slippage ni ventanas horarias. Se ejecuta vía marketable limit ladder.</div></div></div>
+  </div>
+</div>
+
+<!-- ══ CAPA 2 ══ -->
+<div id="v-layer2" class="view">
+  <div class="surface" style="font-size:12px;color:var(--color-text-secondary);line-height:1.6">Motor de construcción del trade: DTE, selección de estructura por Z-Score, cálculo de strikes y validación de liquidez y prima.</div>
+
+  <div class="card">
+    <div class="lbl">DTE y expiración</div>
+    <div class="kv"><span class="k">Ventana de entrada</span><span class="v">35–45 días (ideal: 45)</span></div>
+    <div class="kv"><span class="k">Preferencia de expiración</span><span class="v">Mensual regular (primera prioridad)</span></div>
+    <div class="kv"><span class="k">Weekly permitido</span><span class="v">Solo si mensual fuera de ventana Y liquidez granular ok</span></div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Filtro direccional — Z-Score de IV</div>
+    <div class="mono">Z = Retorno_5d / (IV_ATM / √252)</div>
+    <div style="margin-top:10px;display:flex;flex-direction:column;gap:5px">
+      <div style="display:flex;gap:8px;align-items:center;padding:8px 10px;background:var(--color-background-secondary);border-radius:7px;font-size:12px">
+        <span style="font-weight:500;min-width:90px">|Z| ≤ 1.2</span>
+        <span style="color:var(--color-text-tertiary)">Ruido dentro de lo esperado</span>
+        <span class="pill neu" style="margin-left:auto">Iron Condor</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;padding:8px 10px;background:var(--color-background-success);border-radius:7px;font-size:12px">
+        <span style="font-weight:500;min-width:90px;color:var(--color-text-success)">Z &gt; +1.2</span>
+        <span style="color:var(--color-text-success)">Tendencia alcista significativa</span>
+        <span class="pill ok" style="margin-left:auto">Put Credit Spread</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;padding:8px 10px;background:var(--color-background-danger);border-radius:7px;font-size:12px">
+        <span style="font-weight:500;min-width:90px;color:var(--color-text-danger)">Z &lt; −1.2</span>
+        <span style="color:var(--color-text-danger)">Tendencia bajista significativa</span>
+        <span class="pill err" style="margin-left:auto">Call Credit Spread</span>
+      </div>
+    </div>
+    <div class="note" style="margin-top:10px">El Z-Score normaliza el retorno observado de 5 días por la σ diaria implícita. Si |Z| ≤ 1.2 el mercado se movió dentro de lo estadísticamente esperado — no hay señal direccional real. Si Z &gt; 1.2 el mercado ya se movió &gt;1.2σ al alza: vender puts captura la prima sin pelear contra la dirección.</div>
+
+    <div class="zscore-live">
+      <div style="font-size:11px;color:var(--color-text-tertiary);width:100%;margin-bottom:4px">Calculadora en tiempo real</div>
+      <div class="slider-row" style="width:100%;margin-bottom:4px">
+        <label>Retorno 5d (%)</label>
+        <input type="range" min="-6" max="6" step="0.1" value="1.8" id="ret-sl" oninput="calcZ()" style="flex:1">
+        <span class="v" id="ret-v">+1.8%</span>
+      </div>
+      <div class="slider-row" style="width:100%;margin-bottom:6px">
+        <label>IV ATM (%)</label>
+        <input type="range" min="8" max="50" step="0.5" value="17" id="iv-sl" oninput="calcZ()" style="flex:1">
+        <span class="v" id="iv-v">17.0%</span>
+      </div>
+      <div id="z-result" style="width:100%;padding:8px 12px;border-radius:7px;font-size:12px;font-weight:500;text-align:center"></div>
+      <div id="z-detail" style="width:100%;font-size:11px;color:var(--color-text-tertiary);text-align:center;margin-top:4px"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Selección de strikes</div>
+    <div class="check"><div class="ci ci-i">→</div><div><span style="font-weight:500">EM = Spot × IV_ATM_ciclo × √(DTE/365)</span><div class="note">Se calcula exacto y luego se redondea al strike operable más cercano. IV del ciclo de expiración específico — no IV genérica.</div></div></div>
+    <div class="check"><div class="ci ci-i">→</div><div><span style="font-weight:500">Offset mínimo: 10 pts (SPY/QQQ) · 5 pts (GLD)</span></div></div>
+    <div class="check"><div class="ci ci-i">→</div><div><span style="font-weight:500">Delta máximo pata short ≤ 0.16 en entrada</span><div class="note">Es el umbral de entrada, no de defensa. El hard defense usa 0.30 (core/paper) o 0.28 (live) — son umbrales completamente distintos para propósitos distintos.</div></div></div>
+    <div class="check"><div class="ci ci-i">→</div><div><span style="font-weight:500">Short strikes siempre por fuera de Call Wall / Put Wall</span><div class="note">Los muros son concentraciones de gamma que actúan como soporte/resistencia. Vender por dentro de un muro implica que el soporte gamma ya no existe para esa pata.</div></div></div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Asimetría → spread unilateral</div>
+    <div class="kv"><span class="k">Ratio distancia muros</span><span class="v">&gt; 2.5x → abandona IC</span></div>
+    <div class="kv"><span class="k">Distancia absoluta mínima</span><span class="v">10 pts SPY/QQQ · 5 pts GLD</span></div>
+    <div class="kv"><span class="k">Dirección del spread</span><span class="v">La determina el Z-Score activo</span></div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Liquidez granular</div>
+    <div class="kv"><span class="k">OI pata short</span><span class="v">≥ 2.000 contratos</span></div>
+    <div class="kv"><span class="k">OI pata long</span><span class="v">≥ 500 contratos</span></div>
+    <div class="kv"><span class="k">Bid-Ask spread</span><span class="v">≤ 5% del mid</span></div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Prima mínima — tiered por IV Rank</div>
+    <div class="kv"><span class="k">IVR ≤ 35</span><span class="v">Credit ratio ≥ 10%</span></div>
+    <div class="kv"><span class="k">IVR 36–50</span><span class="v">Credit ratio ≥ 12%</span></div>
+    <div class="kv"><span class="k">IVR &gt; 51</span><span class="v">Credit ratio ≥ 15%</span></div>
+    <div class="note" style="margin-top:6px">Credit ratio = crédito neto / width del spread. A mayor IV Rank el mercado ofrece más prima — si no la capturamos en esa proporción, el strike está mal ubicado o la liquidez es deficiente.</div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Width por activo y POP mínimo</div>
+    <div class="kv"><span class="k">Width SPY · QQQ</span><span class="v">10 puntos</span></div>
+    <div class="kv"><span class="k">Width GLD</span><span class="v">5 puntos</span></div>
+    <div class="kv"><span class="k">POP mínimo</span><span class="v">≥ 75% — proxy: (1 − crédito/width) × 100</span></div>
+  </div>
+</div>
+
+<!-- ══ CAPA 3 · SIZING ══ -->
+<div id="v-layer3" class="view">
+  <div class="surface" style="font-size:12px;color:var(--color-text-secondary);line-height:1.6">Sizing, buying power y heat. Usa los parámetros del perfil activo.</div>
+
+  <div class="card">
+    <div class="lbl">Buying Power (Tastytrade)</div>
+    <div class="mono">BP por contrato = (Width − Crédito) × 100<br>Contratos = floor(Riesgo_máx / BP_por_contrato)<br>Heat_total = Σ (Width − Crédito) × 100 × Contratos</div>
+    <div class="note" style="margin-top:0">El BP de un spread de riesgo definido en Tastytrade es exactamente el max loss — no hay margen adicional.</div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Reglas de sizing</div>
+    <div class="kv"><span class="k">Riesgo máximo por trade</span><span class="v" id="risk-v">1.5% del Net Liq</span></div>
+    <div class="kv"><span class="k">Posiciones máximas simultáneas</span><span class="v" id="pos-v">3</span></div>
+    <div class="kv"><span class="k">Portfolio heat máximo</span><span class="v" id="heat-v">4.5% NL</span></div>
+    <div class="kv"><span class="k">BP disponible requerido</span><span class="v">NL − heat_actual ≥ BP_nuevo_trade</span></div>
+  </div>
+
+  <div class="card">
+    <div class="lbl">Kill switch diario</div>
+    <div class="kv"><span class="k">Trigger</span><span class="v" id="ks-v">Pérdida MTM &gt; 1.5% NL en el día</span></div>
+    <div class="kv"><span class="k">Acción</span><span class="v">Bloquear nuevas entradas — posiciones abiertas continúan</span></div>
+    <div class="kv"><span class="k">Cálculo de pérdida diaria</span><span class="v">Realizado intradiario + no realizado MTM vs cierre previo</span></div>
+    <div class="note" style="margin-top:6px">No es solo P&L realizado — incluye el mark-to-market de posiciones abiertas vs el Net Liq del cierre anterior. Un gap negativo overnight cuenta.</div>
+  </div>
+</div>
+
+<!-- ══ SALIDAS ══ -->
+<div id="v-exits" class="view">
+  <div class="surface" style="font-size:12px;color:var(--color-text-secondary);line-height:1.6">Las salidas son mecánicas y no discrecionales. Se evalúan en orden estricto de prioridad — se ejecuta la primera que aplica.</div>
+
+  <div class="exit-card" style="background:var(--color-background-danger);border-left:3px solid var(--color-text-danger);border-radius:0 10px 10px 0">
+    <div style="display:flex;gap:10px;align-items:flex-start">
+      <div class="priority-num" style="background:var(--color-text-danger);color:white;border:none">1</div>
+      <div>
+        <div style="font-size:13px;font-weight:500;color:var(--color-text-danger)">Contingencia operativa</div>
+        <div style="font-size:12px;color:var(--color-text-danger);opacity:.85;margin-top:4px">Partial fill irresuelto &gt; 20s → cancelar remanente → cleanup via limit ladder agresiva. Bloquea nuevas entradas hasta quedar plano. Si no hay supervisión humana, el motor continúa hasta estar flat.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exit-card" style="background:var(--color-background-danger);border-left:3px solid var(--color-text-danger);border-radius:0 10px 10px 0">
+    <div style="display:flex;gap:10px;align-items:flex-start">
+      <div class="priority-num" style="background:var(--color-text-danger);color:white;border:none">2</div>
+      <div>
+        <div style="font-size:13px;font-weight:500;color:var(--color-text-danger)">Evento macro — liquidación binaria</div>
+        <div style="font-size:12px;color:var(--color-text-danger);opacity:.85;margin-top:4px">Al ingresar a la ventana de FOMC (3d), CPI/NFP (2d) → cerrar todas las posiciones abiertas. Método: marketable limit ladder. Ignora límites de slippage y ventanas horarias. No puede ser bloqueada por ninguna otra regla.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exit-card" style="background:var(--color-background-warning)">
+    <div style="display:flex;gap:10px;align-items:flex-start">
+      <div class="priority-num" style="background:var(--color-text-warning);color:white;border:none">3</div>
+      <div>
+        <div style="font-size:13px;font-weight:500;color:var(--color-text-warning)">Kill switch diario</div>
+        <div style="font-size:12px;color:var(--color-text-warning);opacity:.85;margin-top:4px">Pérdida MTM &gt; <span id="ks2-v">1.5% NL</span> → bloquear nuevas entradas por el resto de la sesión. No cierra posiciones existentes — solo previene nuevas aperturas.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exit-card" style="background:var(--color-background-success)">
+    <div style="display:flex;gap:10px;align-items:flex-start">
+      <div class="priority-num" style="background:var(--color-text-success);color:white;border:none">4</div>
+      <div>
+        <div style="font-size:13px;font-weight:500;color:var(--color-text-success)">Take Profit</div>
+        <div style="font-size:12px;color:var(--color-text-success);opacity:.85;margin-top:4px">P&L ≥ +50% del crédito inicial → cerrar la posición completa. No esperar más. El 50% captura la mayor parte del theta sin exponerse al riesgo de reversión tardía.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exit-card" style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary)">
+    <div style="display:flex;gap:10px;align-items:flex-start">
+      <div class="priority-num">5</div>
+      <div>
+        <div style="font-size:13px;font-weight:500">Pérdida de soporte estructural</div>
+        <div class="note" style="margin-top:4px">Muro relevante (Call Wall o Put Wall) cruza el short strike, confirmado en 2 recálculos consecutivos (no falsa señal) → cerrar posición. El soporte gamma que protegía la pata desapareció.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exit-card" style="background:var(--color-background-warning)">
+    <div style="display:flex;gap:10px;align-items:flex-start">
+      <div class="priority-num" style="background:var(--color-text-warning);color:white;border:none">6</div>
+      <div>
+        <div style="font-size:13px;font-weight:500;color:var(--color-text-warning)">Hard defense</div>
+        <div style="font-size:12px;color:var(--color-text-warning);opacity:.85;margin-top:4px">
+          Dispara por <b>delta short &gt; <span id="hd-v">0.30</span></b> o por <b>pérdida ≥ −200% del crédito inicial</b>.<br>
+          El toque físico del short strike no es gatillo — los wicks intradiarios perforan strikes por microsegundos constantemente. El riesgo real ya está cubierto por delta y PnL.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exit-card" style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary)">
+    <div style="display:flex;gap:10px;align-items:flex-start">
+      <div class="priority-num">7</div>
+      <div>
+        <div style="font-size:13px;font-weight:500">Roll defensivo</div>
+        <div class="note" style="margin-top:4px">
+          <b>Condiciones:</b> PnL = −100% del crédito + DTE &gt; 22 días + crédito neto del roll ≥ $0.20. Máximo 1 roll por posición.<br>
+          <b>Slippage del roll:</b> límite fijo por leg — <span id="roll-v">$0.05/leg · $0.20 total (4 legs)</span>. No porcentaje del crédito neto (matemáticamente inviable para créditos mínimos).<br>
+          Si el roll no es viable: convertir a spread simple → o cerrar todo.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exit-card" style="background:var(--color-background-info)">
+    <div style="display:flex;gap:10px;align-items:flex-start">
+      <div class="priority-num" style="background:var(--color-text-info);color:white;border:none">8</div>
+      <div>
+        <div style="font-size:13px;font-weight:500;color:var(--color-text-info)">Time Exit</div>
+        <div style="font-size:12px;color:var(--color-text-info);opacity:.85;margin-top:4px">DTE ≤ 21 días → cerrar la posición completa sin importar el P&L. En los últimos 21 días el gamma crece exponencialmente — el riesgo de que un shock intradiario toque el strike es demasiado alto para el crédito residual.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FÓRMULAS ══ -->
+<div id="v-math" class="view">
+  <div class="card"><div class="lbl">IV Rank (IVR)</div><div class="mono">IVR = ((IV_actual − IV_min252) / (IV_max252 − IV_min252)) × 100</div><div class="note">Fuente: IV ATM continua interpolada a 30 días. Lookback: 252 sesiones de trading.</div></div>
+  <div class="card"><div class="lbl">Z-Score Direccional</div><div class="mono">Z = Retorno_5d / (IV_ATM / √252)<br><br>ret_5d: retorno log acumulado últimas 5 sesiones<br>IV_ATM / √252: σ diaria implícita<br>|Z| ≤ 1.2 → IC · Z &gt; +1.2 → Put CS · Z &lt; −1.2 → Call CS</div></div>
+  <div class="card"><div class="lbl">Expected Move (EM)</div><div class="mono">EM = Spot × IV_ATM_ciclo × √(DTE / 365)</div><div class="note">IV del ciclo de expiración específico evaluado. Calcular exacto → redondear al strike operable más cercano.</div></div>
+  <div class="card"><div class="lbl">GEX Total</div><div class="mono">GEX = Σ (Open Interest × Gamma × 100)</div><div class="note">Expiraciones: standard + weekly con DTE &lt; 90. Unidad: billones USD. Refresh: mínimo cada 15 min intradiarios.</div></div>
+  <div class="card"><div class="lbl">Zero Gamma Level (ZGL)</div><div class="note" style="margin-top:0">Strike exacto donde el Net GEX acumulado cruza de negativo a positivo. Método: interpolación lineal entre strikes adyacentes. Refresh: 15 min.</div></div>
+  <div class="card"><div class="lbl">Call Wall / Put Wall</div><div class="note" style="margin-top:0">Strike con el mayor Net Gamma Open Interest absoluto relevante, filtrado por DTE &lt; 90.</div></div>
+  <div class="card"><div class="lbl">POP (proxy algebraico)</div><div class="mono">POP = (1 − Crédito_neto / Width) × 100</div></div>
+  <div class="card"><div class="lbl">Slippage entradas</div><div class="mono">Slippage = (Mid_estimado − Fill_real + Fees) / Mid_estimado</div><div class="note">Mid capturado en el instante exacto de validación de la señal, antes del ruteo.</div></div>
+  <div class="card"><div class="lbl">Slippage rolls (fijo por leg)</div><div class="mono">Fricción_total = Σ |Fill_leg − Mid_leg| para cada una de las 4 patas<br>Límite: <span id="roll-slip-math">$0.05/leg · $0.20 total</span></div><div class="note">Límite fijo en USD por leg, independiente del crédito neto objetivo. Core $0.05 · Live $0.04 · Paper $0.08.</div></div>
+  <div class="card"><div class="lbl">Portfolio Heat</div><div class="mono">Heat = Σ (Width − Crédito) × 100 × Contratos</div></div>
+  <div class="card"><div class="lbl">Pérdida diaria (kill switch)</div><div class="mono">Loss = P&L_realizado_intradiario + ΔNet_Liq_vs_cierre_previo</div><div class="note">Incluye posiciones abiertas mark-to-market. No solo realizados.</div></div>
+</div>
+
+</div>
+
+<script>
+const PROS = {
+  core:  { note:'Parámetros base del sistema.', risk:'1.5% del Net Liq', pos:'3', heat:'4.5% NL', ks:'Pérdida MTM > 1.5% NL', openMin:'20 min post apertura', hd:'0.30', roll:'$0.05/leg · $0.20 total', rollMath:'$0.05/leg · $0.20 total (4 legs)' },
+  live:  { note:'Overlay live — ejecución estricta, mayor conservadurismo en riesgo y defensa.', risk:'1.0% del Net Liq', pos:'2', heat:'3.0% NL', ks:'Pérdida MTM > 1.0% NL', openMin:'30 min post apertura', hd:'0.28', roll:'$0.04/leg · $0.16 total', rollMath:'$0.04/leg · $0.16 total (4 legs)' },
+  paper: { note:'Overlay paper — evaluación de edge con fricción simulada deliberadamente más permisiva.', risk:'1.0% del Net Liq', pos:'2', heat:'3.0% NL', ks:'Pérdida MTM > 1.0% NL', openMin:'20 min post apertura', hd:'0.30', roll:'$0.08/leg · $0.32 total', rollMath:'$0.08/leg · $0.32 total (4 legs)' },
+};
+let cur = 'core';
+function setPro(p) {
+  cur = p;
+  ['core','live','paper'].forEach(x => { document.getElementById('ps-'+x).className = 'ps'; });
+  document.getElementById('ps-'+p).className = 'ps on-'+p;
+  const d = PROS[p];
+  document.getElementById('pro-note').textContent = d.note;
+  document.getElementById('open-min-val').textContent = d.openMin;
+  document.getElementById('risk-v').textContent = d.risk;
+  document.getElementById('pos-v').textContent = d.pos;
+  document.getElementById('heat-v').textContent = d.heat;
+  document.getElementById('ks-v').textContent = d.ks;
+  document.getElementById('ks2-v').textContent = d.ks.replace('Pérdida MTM > ', '');
+  document.getElementById('hd-v').textContent = d.hd;
+  document.getElementById('roll-v').textContent = d.roll;
+  document.getElementById('roll-slip-math').textContent = d.rollMath;
+  calcZ();
+}
+setPro('core');
+
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
+  document.getElementById('v-'+id).classList.add('on');
+  event.currentTarget.classList.add('on');
+}
+
+function calcZ() {
+  const ret = +document.getElementById('ret-sl').value;
+  const iv  = +document.getElementById('iv-sl').value;
+  document.getElementById('ret-v').textContent = (ret >= 0 ? '+' : '') + ret.toFixed(1) + '%';
+  document.getElementById('iv-v').textContent  = iv.toFixed(1) + '%';
+  const ivDaily = iv / 100 / Math.sqrt(252);
+  const z = ivDaily > 0 ? (ret / 100) / ivDaily : 0;
+  let struct, bg, color;
+  if (z > 1.2)       { struct = `Z = +${z.toFixed(2)} > +1.2 → Put Credit Spread`; bg = 'var(--color-background-success)'; color = 'var(--color-text-success)'; }
+  else if (z < -1.2) { struct = `Z = ${z.toFixed(2)} < −1.2 → Call Credit Spread`; bg = 'var(--color-background-danger)'; color = 'var(--color-text-danger)'; }
+  else               { struct = `Z = ${z.toFixed(2)} — |Z| ≤ 1.2 → Iron Condor`;  bg = 'var(--color-background-secondary)'; color = 'var(--color-text-primary)'; }
+  const r = document.getElementById('z-result');
+  r.style.background = bg; r.style.color = color; r.textContent = struct;
+  document.getElementById('z-detail').textContent = `σ diaria implícita: ${(ivDaily*100).toFixed(2)}% · ret 5d: ${ret.toFixed(1)}% · umbral: ±1.2`;
+}
+calcZ();
+</script>
