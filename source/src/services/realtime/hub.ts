@@ -13,17 +13,11 @@ class MarketDataHub {
   private greeksCallbacks: GreeksCallback[] = []
 
   constructor() {
-    // this.connection = new HubConnectionBuilder()
-    //   .withUrl(`${API_BASE_URL}/hubs/marketdata`)
-    //   .withAutomaticReconnect()
-    //   .build()
-
     this.connection = new HubConnectionBuilder()
-      .withUrl(`${API_BASE_URL}/hubs/marketdata`, {
-        accessTokenFactory: () => "1234"
-      })
-      .build();
-      
+      .withUrl(`${API_BASE_URL}/hubs/marketdata`)
+      .withAutomaticReconnect()
+      .build()
+
     this.connection.on('ReceiveTrade', (symbol: string, data: HubTradeData) => {
       this.tradeCallbacks.forEach(cb => cb(symbol, data))
     })
